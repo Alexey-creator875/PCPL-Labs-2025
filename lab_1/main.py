@@ -1,22 +1,39 @@
 import sys
 import math
 
-def ReadCoefficient(index, prompt):
+def GetCoefficient(index):
+    coefficientString = ReadCoefficient(index)
+
     try:
-        # Пробуем прочитать коэффициент из командной строки
-        coefficientString = sys.argv[index]
+        coefficient = float(coefficientString)
+        return (True, coefficient)
     except:
-        # Вводим с клавиатуры
-        print(prompt)
-        coefficientString = input()
-    # Переводим строку в действительное число
-    coef = float(coefficientString)
-    return coef
+        return (False, None)
+
+def ReadCoefficient(index):
+    try:
+        coefficientString = ReadCoefficientFromCommandLine(index)
+    except:
+        coefficientString = ReadCoefficientFromInputStream(index)
+    return coefficientString
+
 
 def ReadCoefficientFromCommandLine(index):
     coefficientString = sys.argv(index)
     return coefficientString
 
+def ReadCoefficientFromInputStream(index):
+    if index == 1:
+        print("Enter coefficient A:")
+    elif index == 2:
+        print("Enter coefficient B:")
+    elif index == 3:
+        print("Enter coefficient C:")
+    else:
+        print("Invalid index")
+
+    coefficientString = input()
+    return coefficientString
 
 def get_roots(a, b, c):
     '''
@@ -60,13 +77,25 @@ def print_roots(roots_tuple):
 
 
 def main():
-    '''
-    Основная функция
-    '''
-    a = ReadCoefficient(1, 'Введите коэффициент А:')
-    b = ReadCoefficient(2, 'Введите коэффициент B:')
-    c = ReadCoefficient(3, 'Введите коэффициент C:')
-    # Вычисление корней
+    validCoefficient, a = GetCoefficient(1)
+
+    if not validCoefficient:
+        print("Invalid coefficient")
+        return
+
+
+    validCoefficient, b = GetCoefficient(2)
+
+    if not validCoefficient:
+        print("Invalid coefficient")
+        return
+
+    validCoefficient, c = GetCoefficient(3)
+
+    if not validCoefficient:
+        print("Invalid coefficient")
+        return
+
     roots = get_roots(a,b,c)
     # Вывод корней
     print_roots(roots)
