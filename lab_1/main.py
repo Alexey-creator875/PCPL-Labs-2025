@@ -6,6 +6,10 @@ ONE_ROOT = 1
 TWO_ROOTS = 2
 FOUR_ROOTS = 4
 
+COMMAND_LINE_PARAMETERS_SHIFT = 1
+
+COEFFICIENTS_NUMBER = 3
+
 def GetCoefficient(index):
     coefficientString = ReadCoefficient(index)
 
@@ -17,19 +21,19 @@ def GetCoefficient(index):
 
 def ReadCoefficient(index):
     try:
-        coefficientString = ReadCoefficientFromCommandLine(index)
+        coefficientString = ReadCoefficientAsCommandLineParameter(index)
     except:
         coefficientString = ReadCoefficientFromInputStream(index)
     return coefficientString
 
 
-def ReadCoefficientFromCommandLine(index):
-    coefficientString = sys.argv[index]
+def ReadCoefficientAsCommandLineParameter(index):
+    coefficientString = sys.argv[index + COMMAND_LINE_PARAMETERS_SHIFT]
     return coefficientString
 
 def ReadCoefficientFromInputStream(index):
-    coefficientsLetters = "ABC"
-    print(f"Enter coefficient {coefficientsLetters[index - 1]}:")
+    coefficientLetters = "ABC"
+    print(f"Enter coefficient {coefficientLetters[index]}:")
 
     coefficientString = input()
     return coefficientString
@@ -37,7 +41,9 @@ def ReadCoefficientFromInputStream(index):
 def CalculateRootsOfQuadraticEquation(a, b, c):
     discriminant = CalculateDiscriminant(a, b, c)
 
-    if discriminant == 0.0:
+    if discriminant < 0.0:
+        return (NO_ROOTS,)
+    elif discriminant == 0.0:
         rootOfQuadraticEquation = -b / (2.0*a)
         return (ONE_ROOT, rootOfQuadraticEquation)
     elif discriminant > 0.0:
@@ -45,8 +51,6 @@ def CalculateRootsOfQuadraticEquation(a, b, c):
         root1 = (-b + sqrtDiscriminant) / (2.0*a)
         root2 = (-b - sqrtDiscriminant) / (2.0*a)
         return (TWO_ROOTS, root1, root2)
-    else:
-        return (NO_ROOTS,)
     
 def CalculateDiscriminant(a, b, c):
     return b*b - 4*a*c
@@ -87,20 +91,19 @@ def CalculateBiquadraticRootsForQuadraticRoot(root):
 
 def PrintRoots(rootsTuple):
     match rootsTuple:
-        case (FOUR_ROOTS, root1, root2, root3, root4):
-            print(f"Four roots: {root1}, {root2}, {root3} and {root4}")
-        case (TWO_ROOTS, root1, root2):
-            print(f'Two roots: {root1} и {root2}')
+        case (NO_ROOTS,):
+            print('No roots')
         case (ONE_ROOT, root):
             print(f'One root: {root}')
-        case (NO_ROOTS,):
-            print('No roots')        
-
+        case (TWO_ROOTS, root1, root2):
+            print(f'Two roots: {root1} и {root2}')
+        case (FOUR_ROOTS, root1, root2, root3, root4):
+            print(f"Four roots: {root1}, {root2}, {root3} and {root4}")
 
 def main():
     coefficientList = []
 
-    for i in range(1, 4):
+    for i in range(COEFFICIENTS_NUMBER):
         validCoefficient, coefficient = GetCoefficient(i)
 
         if not validCoefficient:
@@ -116,13 +119,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# Примеры запуска
-# python roots_tuple.py 1 0 -4
-# Два корня: 2.0 и -2.0
-
-# python roots_tuple.py 1 0 0
-# Один корень: -0.0
-
-# python roots_tuple.py 1 0 4
-# Нет корней
