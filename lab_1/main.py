@@ -13,11 +13,13 @@ COEFFICIENTS_NUMBER = 3
 def GetCoefficient(index):
     coefficientString = ReadCoefficient(index)
 
-    try:
-        coefficient = float(coefficientString)
-        return (True, coefficient)
-    except:
-        return (False, None)
+    while True:
+        try:
+            coefficient = float(coefficientString)
+            return coefficient
+        except:
+            print('Invalid coefficient')
+            coefficientString = ReadCoefficientFromInputStream(index)
 
 def ReadCoefficient(index):
     try:
@@ -104,17 +106,9 @@ def main():
     coefficientList = []
 
     for i in range(COEFFICIENTS_NUMBER):
-        validCoefficient, coefficient = GetCoefficient(i)
+        coefficientList.append(GetCoefficient(i))
 
-        if not validCoefficient:
-            print("Invalid coefficient")
-            return
-
-        coefficientList.append(coefficient)
-
-    a, b, c = coefficientList
-
-    roots = CalculateRootsOfBiquadrateEquation(a, b, c)
+    roots = CalculateRootsOfBiquadrateEquation(*coefficientList)
     PrintRoots(roots)
 
 if __name__ == "__main__":
