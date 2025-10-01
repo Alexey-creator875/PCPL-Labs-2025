@@ -98,26 +98,20 @@ def PrintRoots(rootsTuple):
 
 
 def main():
-    validCoefficient, a = GetCoefficient(1)
+    coefficientList = []
 
-    if not validCoefficient:
-        print("Invalid coefficient")
-        return
+    for i in range(1, 4):
+        validCoefficient, coefficient = GetCoefficient(i)
 
+        if not validCoefficient:
+            print("Invalid coefficient")
+            return
 
-    validCoefficient, b = GetCoefficient(2)
+        coefficientList.append(coefficient)
 
-    if not validCoefficient:
-        print("Invalid coefficient")
-        return
+    a, b, c = coefficientList
 
-    validCoefficient, c = GetCoefficient(3)
-
-    if not validCoefficient:
-        print("Invalid coefficient")
-        return
-
-    roots = CalculateRootsOfBiquadrateEquation(a,b,c)
+    roots = CalculateRootsOfBiquadrateEquation(a, b, c)
     PrintRoots(roots)
 
 if __name__ == "__main__":
