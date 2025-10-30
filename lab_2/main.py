@@ -2,6 +2,7 @@ from lab_python_oop.Rectangle import Rectangle
 from lab_python_oop.Circle import Circle
 from lab_python_oop.Square import Square
 
+import numpy as np
 
 NUMBER_IN_STUDENT_LIST = 20
 
@@ -18,6 +19,7 @@ def main():
     print(square.getFigureType())
     print(square)
 
-    
+    print(np.eye(NUMBER_IN_STUDENT_LIST))
+
 if __name__ == "__main__":
     main()
