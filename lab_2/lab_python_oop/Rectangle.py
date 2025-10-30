@@ -12,5 +12,5 @@ class Rectangle(GeometricFigure):
         return self.width * self.length
     
     def __repr__(self):
-        return 'Width: {}, Length: {}, Color: {}, Area: {}'.format(self.width, self.length, self.color.color, self.area())
+        return 'Width: {}; Length: {}; Color: {}; Area: {}'.format(self.width, self.length, self.color.color, self.area())
     
