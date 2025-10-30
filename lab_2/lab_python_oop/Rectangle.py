@@ -1,5 +1,5 @@
-from GeometricFigure import GeometricFigure
-from FColor import FColor
+from lab_python_oop.GeometricFigure import GeometricFigure
+from lab_python_oop.FColor import FColor
 
 
 class Rectangle(GeometricFigure):
