@@ -7,13 +7,16 @@ NUMBER_IN_STUDENT_LIST = 20
 
 def main():
     rectangle = Rectangle(NUMBER_IN_STUDENT_LIST, NUMBER_IN_STUDENT_LIST, "blue")
-    print("Rectangle", rectangle, sep='\n')
+    print(rectangle.getFigureType())
+    print(rectangle)
 
     circle = Circle(NUMBER_IN_STUDENT_LIST, "green")
-    print("Circle", circle, sep='\n')
+    print(circle.getFigureType())
+    print(circle)
 
     square = Square(NUMBER_IN_STUDENT_LIST, "red")
-    print("Square", square, sep='\n')
+    print(square.getFigureType())
+    print(square)
 
     
 if __name__ == "__main__":
