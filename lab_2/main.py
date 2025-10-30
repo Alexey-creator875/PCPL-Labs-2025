@@ -1,9 +1,11 @@
-import os
-import sys
+from lab_python_oop.Rectangle import Rectangle
 
 
-python_path = os.path.dirname(sys. executable)
+def main():
+    rect = Rectangle(2, 3, "red")
+    print(rect)
+    
 
-python_version = sys.version
 
-print(f" Путь к интерпретатору {python_path}, версия {python_version}")
+if __name__ == "__main__":
+    main()
