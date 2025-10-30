@@ -10,4 +10,8 @@ class Square(Rectangle):
     
     def __repr__(self):
         return 'Length: {}; Color: {}; Area: {}'.format(self.length, self.color.color, self.area())
-    
+
+    FIGURE_TYPE = "Square"
+
+    def getFigureType(self):
+        return self.FIGURE_TYPE    

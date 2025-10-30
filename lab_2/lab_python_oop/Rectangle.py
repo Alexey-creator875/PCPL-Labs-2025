@@ -14,3 +14,7 @@ class Rectangle(GeometricFigure):
     def __repr__(self):
         return 'Width: {}; Length: {}; Color: {}; Area: {}'.format(self.width, self.length, self.color.color, self.area())
     
+    FIGURE_TYPE = "Rectangle"
+
+    def getFigureType(self):
+        return self.FIGURE_TYPE

@@ -14,3 +14,8 @@ class Circle(GeometricFigure):
     def __repr__(self):
         return 'Radius: {}; Color: {}; Area: {}'.format(self.radius, self.color.color, self.area())
     
+    FIGURE_TYPE = "Circle"
+
+    def getFigureType(self):
+        return self.FIGURE_TYPE
+    
