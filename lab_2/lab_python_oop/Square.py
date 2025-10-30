@@ -9,5 +9,5 @@ class Square(Rectangle):
         return self.width * self.length
     
     def __repr__(self):
-        return 'Length: {}, Color: {}, Area: {}'.format(self.length, self.color.color, self.area())
+        return 'Length: {}; Color: {}; Area: {}'.format(self.length, self.color.color, self.area())
     
