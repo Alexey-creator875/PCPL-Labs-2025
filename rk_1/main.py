@@ -42,12 +42,14 @@ class FacultyDepartment():
     '''
 
 def JoinFacultyToDepartmentIfOneToManyRelationship(departments, faculties):
-    return [
+    one_to_many = [
         (department.name, department.tuitionFee, faculty.name)
         for faculty in faculties
         for department in departments
         if department.facultyId == faculty.id
     ]
+
+    return one_to_many
 
 def JoinFacultyToDepartmentIfManyToManyRelationship(departments, faculties, facultyDepartments):
     many_to_many_temp = [
@@ -57,12 +59,14 @@ def JoinFacultyToDepartmentIfManyToManyRelationship(departments, faculties, facu
         if facultyDepartment.facultyId == faculty.id
     ]
 
-    return [
+    many_to_many = [
         (department.name, department.tuitionFee, facultyName)
         for facultyName, _, departmentId in many_to_many_temp
         for department in departments
         if department.id == departmentId
     ]
+
+    return many_to_many
 
 def PrintTaskNumber(number):
     print(f'\nЗадание {number}')
