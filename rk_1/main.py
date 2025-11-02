@@ -69,8 +69,8 @@ def PrintTaskNumber(number):
 
 def PerformFirstRequest(one_to_many):
     PrintTaskNumber('B1')
-    resA1 = list(filter(lambda row: row[0].startswith('И'), one_to_many))
-    print(*resA1, sep='\n')
+    resB1 = list(filter(lambda row: row[0].startswith('И'), one_to_many))
+    print(*resB1, sep='\n')
 
 def PerformSecondTask(faculties, one_to_many):
     PrintTaskNumber('B2')
@@ -78,16 +78,16 @@ def PerformSecondTask(faculties, one_to_many):
     resA2Unsorted = []
 
     for faculty in faculties:
-        facultyTuitionFees = [row[1] for row in one_to_many if row[2] == faculty.name]
-        if facultyTuitionFees:
+        facultyDepartments = list(filter(lambda row: row[2] == faculty.name, one_to_many))
+        if facultyDepartments:
+            facultyTuitionFees = [row[1] for row in facultyDepartments]
             resA2Unsorted.append((faculty.name, min(facultyTuitionFees)))
 
-
-    resA2 = sorted(resA2Unsorted, key=lambda row : row[1])
-    print(*resA2, sep='\n')
+    resB2 = sorted(resA2Unsorted, key=lambda row : row[1])
+    print(*resB2, sep='\n')
 
 def PerformThirdTask(many_to_many):
-    PrintTaskNumber('B2')
+    PrintTaskNumber('B3')
     resA3 = sorted(many_to_many, key=lambda row : row[0])
     print(*resA3, sep='\n')
 
@@ -101,7 +101,6 @@ def main():
         Faculty(12, 'СМ'),
         Faculty(13, 'ИБМ'),
     ]
-
 
     departments = [
         Department(1, 'ИУ5', 449000, 1),
@@ -131,7 +130,6 @@ def main():
     PerformFirstRequest(one_to_many)
     PerformSecondTask(faculties, one_to_many)
     PerformThirdTask(many_to_many)
-
 
 if __name__ == "__main__":
     main()
