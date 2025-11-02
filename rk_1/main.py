@@ -1,109 +1,128 @@
-class Part():
-    def __init__(self, id, name, price, supplierId):
+class Department():
+    def __init__(self, id, name, tuitionFee, facultyId):
         self.id = id
         self.name = name
-        self.price = price
-        self.supplierId = supplierId
+        self.tuitionFee = tuitionFee
+        self.facultyId = facultyId
 
-class Supplier():
+class Faculty():
     def __init__(self, id, name):
         self.id = id
         self.name = name
 
-class PartSupplierM2MRelationship():
-    def __init__(self, partId, supplierId):
-        self.partId = partId
-        self.supplierId = supplierId
+class FacultyDepartment():
+    def __init__(self, facultyId, departmentId):
+        self.facultyId = facultyId
+        self.departmentId = departmentId
 
 def main():
-    parts = [
-        Part(1, "Болт", 25.50, 1),
-        Part(2, "Гайка", 12.00, 2),
-        Part(3, "Шайба", 5.30, 1),
-        Part(4, "Винт", 18.90, 3),
-        Part(5, "Подшипник", 320.00, 4),
-        Part(6, "Шпонка", 42.75, 2),
-        Part(7, "Заклёпка", 7.80, 5),
-        Part(8, "Штифт", 29.40, 3),
-        Part(9, "Гвоздь", 3.15, 5),
-        Part(10, "Резьба", 55.20, 4)
+    faculties = [
+        Faculty(1, 'Информатика и системы управления'),
+        Faculty(2, 'Специальное машиностроение'),
+        Faculty(3, 'Инженерный бизнес и менеджмент'),
+
+        Faculty(11, 'ИУ'),
+        Faculty(12, 'СМ'),
+        Faculty(13, 'ИБМ'),
     ]
 
-    suppliers = [
-        Supplier(1, "ООО \"Вектор\""),
-        Supplier(2, "АО \"МеталлСервис\""),
-        Supplier(3, "ЗАО \"ТехноПром\""),
-        Supplier(4, "ИП \"Стальной мир\""),
-        Supplier(5, "ООО \"Квант\"")
+
+    departments = [
+        Department(1, 'ИУ5', 449000, 1),
+        Department(2, 'СМ12', 539000, 2),
+        Department(3, 'ИУ7', 549000, 1),
+        Department(4, 'ИБМ3', 439000, 3),
+        Department(5, 'СМ7', 459000, 2)
     ]
 
-    partSupplierM2MRelationships = [
-        PartSupplierM2MRelationship(1, 1),
-        PartSupplierM2MRelationship(1, 2),
-        PartSupplierM2MRelationship(2, 2),
-        PartSupplierM2MRelationship(2, 3),
-        PartSupplierM2MRelationship(3, 1),
-        PartSupplierM2MRelationship(4, 3),
-        PartSupplierM2MRelationship(4, 5),
-        PartSupplierM2MRelationship(5, 4),
-        PartSupplierM2MRelationship(6, 2),
-        PartSupplierM2MRelationship(7, 5)
+    facultyDepartments = [
+        FacultyDepartment(1, 1),
+        FacultyDepartment(2, 2),
+        FacultyDepartment(1, 3),
+        FacultyDepartment(3, 4),
+        FacultyDepartment(2, 5),
+
+        FacultyDepartment(11, 1),
+        FacultyDepartment(12, 2),
+        FacultyDepartment(11, 3),
+        FacultyDepartment(13, 4),
+        FacultyDepartment(12, 5)
     ]
 
     one_to_many = [
-        (part.name, part.price, supplier.name)
-        for supplier in suppliers
-        for part in parts
-        if part.supplierId == supplier.id
+        (department.name, department.tuitionFee, faculty.name)
+        for faculty in faculties
+        for department in departments
+        if department.facultyId == faculty.id
     ]
 
     many_to_many_temp = [
-        (supplier.name, partSuplier.supplierId, partSuplier.partId)
-        for supplier in suppliers
-        for partSuplier in partSupplierM2MRelationships
-        if partSuplier.supplierId == supplier.id
+        (faculty.name, facultyDepartment.facultyId, facultyDepartment.departmentId)
+        for faculty in faculties
+        for facultyDepartment in facultyDepartments
+        if facultyDepartment.facultyId == faculty.id
     ]
 
     many_to_many = [
-        (part.name, part.price, supplierName)
-        for supplierName, supplierId, partId in many_to_many_temp
-        for part in parts
-        if part.id == partId
+        (department.name, department.tuitionFee, facultyName)
+        for facultyName, _, departmentId in many_to_many_temp
+        for department in departments
+        if department.id == departmentId
     ]
 
     '''
+    Вариант В
     1. «Отдел» и «Сотрудник» связаны соотношением один-ко-многим. Выведите
-        список всех связанных сотрудников и отделов, отсортированный по отделам,
-        сортировка по сотрудникам произвольная.
+        список всех сотрудников, у которых фамилия начинается с буквы «А», и названия
+        их отделов.
     2. «Отдел» и «Сотрудник» связаны соотношением один-ко-многим. Выведите
-        список отделов с суммарной зарплатой сотрудников в каждом отделе,
-        отсортированный по суммарной зарплате.
+        список отделов с минимальной зарплатой сотрудников в каждом отделе,
+        отсортированный по минимальной зарплате.
     3. «Отдел» и «Сотрудник» связаны соотношением многие-ко-многим. Выведите
-        список всех отделов, у которых в названии присутствует слово «отдел», и список
-        работающих в них сотрудников.
+        список всех связанных сотрудников и отделов, отсортированный по сотрудникам,
+        сортировка по отделам произвольная.
     '''
 
+    '''
+    Вариант В
+    1. «Факультет» и «Кафедра» связаны соотношением один-ко-многим. Выведите
+        список всех кафедр, у которых название начинается с буквы «И», и названия
+        их факультетов.
+    2. «Факультет» и «Кафедра» связаны соотношением один-ко-многим. Выведите
+        список факультетов с минимальной платой за обучение на кафедре в каждом факультете,
+        отсортированный по минимальной плате.
+    3. «Факультет» и «Кафедра» связаны соотношением многие-ко-многим. Выведите
+        список всех связанных кафедр и факультетов, отсортированный по кафедрам,
+        сортировка по факультетам произвольная.
+    '''
 
-    print("Задание А1")
-    resA1 = sorted(one_to_many, key=lambda part : part[2])
-    print(resA1)
+    print("Задание В1")
+    resA1 = [row for row in one_to_many if row[2].startswith('И')]
+    print(*resA1, sep='\n')
 
-    print('\nЗадание А2')
+    print('\nЗадание В2')
     resA2Unsorted = []
-    
-    for supplier in suppliers:
-        
-        supplierParts = list(filter(lambda i: i[2]==supplier.name, one_to_many))
-        
-        if len(supplierParts) > 0:
-            
-            partPrices = [price for _,price,_ in supplierParts]
-            
-            partPricesSum = sum(partPrices)
-            resA2Unsorted.append((supplier.name, partPricesSum))
-    
-    resA2 = sorted(resA2Unsorted, key=lambda i : i[1], reverse=True)
-    print(resA2)
+
+    for faculty in faculties:
+
+        facultyDepartments = [row for row in one_to_many if row[2] == faculty.name]
+
+        if facultyDepartments:
+            minTuitionFee = 1000000
+
+            for department in facultyDepartments:
+                if department[1] < minTuitionFee:
+                    minTuitionFee = department[1]
+
+            resA2Unsorted.append((faculty.name, minTuitionFee))
+
+    resA2 = sorted(resA2Unsorted, key=lambda row : row[1])
+    print(*resA2, sep='\n')
+
+    print('\nЗадание В3')
+    resA3 = sorted(many_to_many, key=lambda row : row[0])
+    print(*resA3, sep='\n')
+
 
 if __name__ == "__main__":
     main()
