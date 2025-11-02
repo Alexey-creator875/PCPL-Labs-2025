@@ -15,6 +15,9 @@ class FacultyDepartment():
         self.facultyId = facultyId
         self.departmentId = departmentId
 
+def PrintTaskNumber(number):
+    print(f'\nЗадание {number}')
+
 def main():
     faculties = [
         Faculty(1, 'Информатика и системы управления'),
@@ -96,11 +99,12 @@ def main():
         сортировка по факультетам произвольная.
     '''
 
-    print("Задание В1")
+    # print("Задание В1")
+    PrintTaskNumber('B1')
     resA1 = [row for row in one_to_many if row[2].startswith('И')]
     print(*resA1, sep='\n')
 
-    print('\nЗадание В2')
+    PrintTaskNumber('B2')
     resA2Unsorted = []
 
     for faculty in faculties:
@@ -119,7 +123,7 @@ def main():
     resA2 = sorted(resA2Unsorted, key=lambda row : row[1])
     print(*resA2, sep='\n')
 
-    print('\nЗадание В3')
+    PrintTaskNumber('B2')
     resA3 = sorted(many_to_many, key=lambda row : row[0])
     print(*resA3, sep='\n')
 
