@@ -15,8 +15,87 @@ class FacultyDepartment():
         self.facultyId = facultyId
         self.departmentId = departmentId
 
+    '''
+    Вариант В
+    1. «Отдел» и «Сотрудник» связаны соотношением один-ко-многим. Выведите
+        список всех сотрудников, у которых фамилия начинается с буквы «А», и названия
+        их отделов.
+    2. «Отдел» и «Сотрудник» связаны соотношением один-ко-многим. Выведите
+        список отделов с минимальной зарплатой сотрудников в каждом отделе,
+        отсортированный по минимальной зарплате.
+    3. «Отдел» и «Сотрудник» связаны соотношением многие-ко-многим. Выведите
+        список всех связанных сотрудников и отделов, отсортированный по сотрудникам,
+        сортировка по отделам произвольная.
+    '''
+
+    '''
+    Вариант В
+    1. «Факультет» и «Кафедра» связаны соотношением один-ко-многим. Выведите
+        список всех кафедр, у которых название начинается с буквы «И», и названия
+        их факультетов.
+    2. «Факультет» и «Кафедра» связаны соотношением один-ко-многим. Выведите
+        список факультетов с минимальной платой за обучение на кафедре в каждом факультете,
+        отсортированный по минимальной плате.
+    3. «Факультет» и «Кафедра» связаны соотношением многие-ко-многим. Выведите
+        список всех связанных кафедр и факультетов, отсортированный по кафедрам,
+        сортировка по факультетам произвольная.
+    '''
+
+def JoinFacultyToDepartmentIfOneToManyRelationship(departments, faculties):
+    return [
+        (department.name, department.tuitionFee, faculty.name)
+        for faculty in faculties
+        for department in departments
+        if department.facultyId == faculty.id
+    ]
+
+def JoinFacultyToDepartmentIfManyToManyRelationship(departments, faculties, facultyDepartments):
+    many_to_many_temp = [
+        (faculty.name, facultyDepartment.facultyId, facultyDepartment.departmentId)
+        for faculty in faculties
+        for facultyDepartment in facultyDepartments
+        if facultyDepartment.facultyId == faculty.id
+    ]
+
+    return [
+        (department.name, department.tuitionFee, facultyName)
+        for facultyName, _, departmentId in many_to_many_temp
+        for department in departments
+        if department.id == departmentId
+    ]
+
 def PrintTaskNumber(number):
     print(f'\nЗадание {number}')
+
+def PerformFirstRequest(one_to_many):
+    PrintTaskNumber('B1')
+    resA1 = [row for row in one_to_many if row[2].startswith('И')]
+    print(*resA1, sep='\n')
+
+def PerformSecondTask(faculties, one_to_many):
+    PrintTaskNumber('B2')
+    resA2Unsorted = []
+
+    for faculty in faculties:
+
+        facultyDepartments = [row for row in one_to_many if row[2] == faculty.name]
+
+        if facultyDepartments:
+            minTuitionFee = 1000000
+
+            for department in facultyDepartments:
+                if department[1] < minTuitionFee:
+                    minTuitionFee = department[1]
+
+            resA2Unsorted.append((faculty.name, minTuitionFee))
+
+    resA2 = sorted(resA2Unsorted, key=lambda row : row[1])
+    print(*resA2, sep='\n')
+
+def PerformThirdTask(many_to_many):
+    PrintTaskNumber('B2')
+    resA3 = sorted(many_to_many, key=lambda row : row[0])
+    print(*resA3, sep='\n')
 
 def main():
     faculties = [
@@ -52,80 +131,12 @@ def main():
         FacultyDepartment(12, 5)
     ]
 
-    one_to_many = [
-        (department.name, department.tuitionFee, faculty.name)
-        for faculty in faculties
-        for department in departments
-        if department.facultyId == faculty.id
-    ]
+    one_to_many = JoinFacultyToDepartmentIfOneToManyRelationship(departments, faculties)
+    many_to_many = JoinFacultyToDepartmentIfManyToManyRelationship(departments, faculties, facultyDepartments)
 
-    many_to_many_temp = [
-        (faculty.name, facultyDepartment.facultyId, facultyDepartment.departmentId)
-        for faculty in faculties
-        for facultyDepartment in facultyDepartments
-        if facultyDepartment.facultyId == faculty.id
-    ]
-
-    many_to_many = [
-        (department.name, department.tuitionFee, facultyName)
-        for facultyName, _, departmentId in many_to_many_temp
-        for department in departments
-        if department.id == departmentId
-    ]
-
-    '''
-    Вариант В
-    1. «Отдел» и «Сотрудник» связаны соотношением один-ко-многим. Выведите
-        список всех сотрудников, у которых фамилия начинается с буквы «А», и названия
-        их отделов.
-    2. «Отдел» и «Сотрудник» связаны соотношением один-ко-многим. Выведите
-        список отделов с минимальной зарплатой сотрудников в каждом отделе,
-        отсортированный по минимальной зарплате.
-    3. «Отдел» и «Сотрудник» связаны соотношением многие-ко-многим. Выведите
-        список всех связанных сотрудников и отделов, отсортированный по сотрудникам,
-        сортировка по отделам произвольная.
-    '''
-
-    '''
-    Вариант В
-    1. «Факультет» и «Кафедра» связаны соотношением один-ко-многим. Выведите
-        список всех кафедр, у которых название начинается с буквы «И», и названия
-        их факультетов.
-    2. «Факультет» и «Кафедра» связаны соотношением один-ко-многим. Выведите
-        список факультетов с минимальной платой за обучение на кафедре в каждом факультете,
-        отсортированный по минимальной плате.
-    3. «Факультет» и «Кафедра» связаны соотношением многие-ко-многим. Выведите
-        список всех связанных кафедр и факультетов, отсортированный по кафедрам,
-        сортировка по факультетам произвольная.
-    '''
-
-    # print("Задание В1")
-    PrintTaskNumber('B1')
-    resA1 = [row for row in one_to_many if row[2].startswith('И')]
-    print(*resA1, sep='\n')
-
-    PrintTaskNumber('B2')
-    resA2Unsorted = []
-
-    for faculty in faculties:
-
-        facultyDepartments = [row for row in one_to_many if row[2] == faculty.name]
-
-        if facultyDepartments:
-            minTuitionFee = 1000000
-
-            for department in facultyDepartments:
-                if department[1] < minTuitionFee:
-                    minTuitionFee = department[1]
-
-            resA2Unsorted.append((faculty.name, minTuitionFee))
-
-    resA2 = sorted(resA2Unsorted, key=lambda row : row[1])
-    print(*resA2, sep='\n')
-
-    PrintTaskNumber('B2')
-    resA3 = sorted(many_to_many, key=lambda row : row[0])
-    print(*resA3, sep='\n')
+    PerformFirstRequest(one_to_many)
+    PerformSecondTask(faculties, one_to_many)
+    PerformThirdTask(many_to_many)
 
 
 if __name__ == "__main__":
