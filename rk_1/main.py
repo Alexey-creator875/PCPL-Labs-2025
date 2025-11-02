@@ -69,25 +69,19 @@ def PrintTaskNumber(number):
 
 def PerformFirstRequest(one_to_many):
     PrintTaskNumber('B1')
-    resA1 = [row for row in one_to_many if row[2].startswith('И')]
+    resA1 = list(filter(lambda row: row[0].startswith('И'), one_to_many))
     print(*resA1, sep='\n')
 
 def PerformSecondTask(faculties, one_to_many):
     PrintTaskNumber('B2')
+
     resA2Unsorted = []
 
     for faculty in faculties:
+        facultyTuitionFees = [row[1] for row in one_to_many if row[2] == faculty.name]
+        if facultyTuitionFees:
+            resA2Unsorted.append((faculty.name, min(facultyTuitionFees)))
 
-        facultyDepartments = [row for row in one_to_many if row[2] == faculty.name]
-
-        if facultyDepartments:
-            minTuitionFee = 1000000
-
-            for department in facultyDepartments:
-                if department[1] < minTuitionFee:
-                    minTuitionFee = department[1]
-
-            resA2Unsorted.append((faculty.name, minTuitionFee))
 
     resA2 = sorted(resA2Unsorted, key=lambda row : row[1])
     print(*resA2, sep='\n')
