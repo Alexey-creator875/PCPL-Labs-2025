@@ -1,2 +1,5 @@
 # Ignore python cache
 __pycache__
+
+# Ignore json files
+*.json
