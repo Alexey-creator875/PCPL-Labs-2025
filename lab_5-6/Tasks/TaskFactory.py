@@ -1,4 +1,5 @@
 from Tasks.Tasks import TaskType, SimpleTask, UrgentTask
+from Tasks.CompositeTask import CompositeTask
 
 
 class TaskFactory:
@@ -7,5 +8,7 @@ class TaskFactory:
             return UrgentTask(*args, **kwargs)
         elif task_type == TaskType.SIMPLE:
             return SimpleTask(*args, **kwargs)
+        elif task_type == TaskType.COMPOSITE:
+            return CompositeTask(*args, **kwargs)
         else:
             raise ValueError(f'Unknown task type: {task_type}')

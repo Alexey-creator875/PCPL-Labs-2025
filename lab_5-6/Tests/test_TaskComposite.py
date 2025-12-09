@@ -1,8 +1,11 @@
 import unittest
+from unittest.mock import patch
+
+from datetime import datetime
 
 from Tasks.TaskFactory import TaskFactory
 from Tasks.Tasks import TaskType
-from Tasks.TaskComposite import TaskComposite
+from Tasks.CompositeTask import CompositeTask
 
 
 class TestTaskComposite(unittest.TestCase):
@@ -11,7 +14,7 @@ class TestTaskComposite(unittest.TestCase):
     
     def test_add_component(self):
         tasks_type = TaskType.SIMPLE
-        simple_tasks = TaskComposite('Simple Tasks')
+        simple_tasks = CompositeTask('Simple Tasks')
 
         cook_soup_task = self.factory.create_task(tasks_type, 'Cook soup')
         cut_vegetables_task = self.factory.create_task(tasks_type, 'Cut vegetables')
@@ -35,7 +38,7 @@ class TestTaskComposite(unittest.TestCase):
 
     def test_remove_component(self):
         tasks_type = TaskType.SIMPLE
-        simple_tasks = TaskComposite('Simple Tasks')
+        simple_tasks = CompositeTask('Simple Tasks')
 
         cook_soup_task = self.factory.create_task(tasks_type, 'Cook soup')
 
@@ -45,7 +48,7 @@ class TestTaskComposite(unittest.TestCase):
         self.assertFalse(simple_tasks.components)
 
     def test_get_status(self):
-        home_tasks = TaskComposite('Home Tasks')
+        home_tasks = CompositeTask('Home Tasks')
 
         home_tasks.add_component(self.factory.create_task(TaskType.SIMPLE, 'Cook soup'))
         home_tasks.add_component(self.factory.create_task(TaskType.SIMPLE, 'Cut vegetables'))
@@ -56,4 +59,32 @@ class TestTaskComposite(unittest.TestCase):
         ]
 
         self.assertEqual(home_tasks.get_status(), correct_status)
+
+    @patch('Tasks.Tasks.datetime')
+    def test_get_status_complex_composite_task(self, mock_datetime):
+        fixed_time = datetime(2025, 12, 9, 16, 16, 44)
+        mock_datetime.now.return_value = fixed_time
+
+        deadline = datetime(2025, 12, 9, 17)
+        
+        home_task = CompositeTask('Home Tasks')
+
+        cook_dinner_task = self.factory.create_task(TaskType.COMPOSITE, 'Cook dinner')
+        cook_dinner_task.add_component(self.factory.create_task(TaskType.URGENT, 'Cook soup', deadline))
+        cook_dinner_task.add_component(self.factory.create_task(TaskType.SIMPLE, 'Cut vegetables'))
+
+        clean_house_task = self.factory.create_task(TaskType.SIMPLE, 'Clean the house')
+
+        home_task.add_component(cook_dinner_task)
+        home_task.add_component(clean_house_task)
+
+        correct_status = [
+            [
+                ['Urgent Task', 'Description: Cook soup', 'Time left: 0:43:16'],
+                ['Simple Task', 'Description: Cut vegetables']
+            ],
+            ['Simple Task', 'Description: Clean the house']
+        ]
+
+        self.assertEqual(home_task.get_status(), correct_status)
 

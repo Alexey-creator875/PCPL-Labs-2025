@@ -7,6 +7,7 @@ from datetime import datetime
 class TaskType(Enum):
     URGENT = 0
     SIMPLE = 1
+    COMPOSITE = 2
 
 
 class Task(ABC):

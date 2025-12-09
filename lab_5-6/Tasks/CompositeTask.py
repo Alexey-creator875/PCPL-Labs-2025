@@ -1,7 +1,7 @@
 from Tasks.Tasks import Task
 
 
-class TaskComposite(Task):
+class CompositeTask(Task):
     def __init__(self, description):
         super().__init__(description)
         self.components = []

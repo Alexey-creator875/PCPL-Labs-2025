@@ -24,6 +24,13 @@ class TestTaskFactory(unittest.TestCase):
         self.assertFalse(simple_task.completed)
         self.assertEqual(simple_task.deadline, datetime(2025, 12, 9, 16))
 
+    def test_create_composite_task(self):
+        composite_task = self.factory.create_task(TaskType.COMPOSITE, 'Cook dinner')
+
+        self.assertEqual(composite_task.description, 'Cook dinner')
+        self.assertFalse(composite_task.completed)
+        self.assertFalse(composite_task.components)
+
     def test_raise_exception_when_create_task_(self):
         with self.assertRaises(ValueError):
             task = self.factory.create_task(1, 'Cook dinner')
