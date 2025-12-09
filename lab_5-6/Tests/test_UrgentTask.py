@@ -8,13 +8,14 @@ from Tasks.Tasks import UrgentTask
 
 class TestUrgentTask(unittest.TestCase):
     def test_create_task(self):
-        task = UrgentTask("Do homework", datetime(2025, 12, 9, 16))
+        task = UrgentTask('Do homework', datetime(2025, 12, 9, 16))
 
-        self.assertEqual(task.description, "Do homework")
+        self.assertEqual(task.description, 'Do homework')
+        self.assertFalse(task.completed)
         self.assertEqual(task.deadline, datetime(2025, 12, 9, 16))
 
     def test_create_task_deadline_with_microsecs(self):
-        task = UrgentTask("Do homework", datetime(2025, 12, 9, 16, 0, 0, 200))
+        task = UrgentTask('Do homework', datetime(2025, 12, 9, 16, 0, 0, 200))
 
         self.assertEqual(task.deadline, datetime(2025, 12, 9, 16))
 
@@ -24,7 +25,7 @@ class TestUrgentTask(unittest.TestCase):
         mock_datetime.now.return_value = fixed_time
 
         deadline = datetime(2025, 12, 9, 17)
-        task = UrgentTask("Do homework", deadline)
+        task = UrgentTask('Do homework', deadline)
         status = task.get_status()
 
         correct_status = [
@@ -42,7 +43,7 @@ class TestUrgentTask(unittest.TestCase):
         mock_datetime.now.return_value = fixed_time
 
         deadline = datetime(2025, 12, 15, 16)
-        task = UrgentTask("Do homework", deadline)
+        task = UrgentTask('Do homework', deadline)
         status = task.get_status()
 
         correct_status = [
