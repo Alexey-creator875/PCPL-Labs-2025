@@ -1,6 +1,6 @@
 import unittest
 
-from Tasks.Tasks import SimpleTask
+from Tasks.Tasks import SimpleTask, TaskType
 
 class TestSimpleTask(unittest.TestCase):
     def test_create_task(self):
@@ -26,9 +26,10 @@ class TestSimpleTask(unittest.TestCase):
         task = SimpleTask('Cook dinner')
         status = task.get_status()
 
-        correct_status = [
-            'Simple Task',
-            'Description: Cook dinner'
-        ]
+        correct_status = {
+            'Description': 'Cook dinner',
+            'Task type': TaskType.SIMPLE,
+            'Completed': False,
+        }
 
         self.assertEqual(status, correct_status)

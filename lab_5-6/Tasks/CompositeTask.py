@@ -1,4 +1,4 @@
-from Tasks.Tasks import Task
+from Tasks.Tasks import Task, TaskType
 
 
 class CompositeTask(Task):
@@ -6,6 +6,11 @@ class CompositeTask(Task):
         super().__init__(description)
         self.components = []
     
+    def mark_as_completed(self):
+        super().mark_as_completed()
+        for component in self.components:
+            component.mark_as_completed()
+
     def add_component(self, component):
         self.components.append(component)
 
@@ -13,4 +18,13 @@ class CompositeTask(Task):
         self.components.remove(component)
 
     def get_status(self):
-        return [component.get_status() for component in self.components]
+        subtasks = [component.get_status() for component in self.components]
+
+        status = {
+            'Description': self.description,
+            'Task type': TaskType.COMPOSITE,
+            'Completed': self.completed,
+            'Subtasks': subtasks
+        }
+
+        return status

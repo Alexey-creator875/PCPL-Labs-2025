@@ -31,10 +31,11 @@ class SimpleTask(Task):
         super().__init__(description)
 
     def get_status(self):
-        return [
-            'Simple Task',
-            f'Description: {self.description}'
-        ]
+        return {
+            'Description': self.description,
+            'Task type': TaskType.SIMPLE,
+            'Completed': self.completed,
+        }
 
 
 class UrgentTask(Task):
@@ -46,8 +47,9 @@ class UrgentTask(Task):
     def get_status(self):
         time_left = self.deadline - datetime.now().replace(microsecond=0)
 
-        return [
-            'Urgent Task',
-            f'Description: {self.description}',
-            f'Time left: {time_left}'
-        ]
+        return {
+            'Description': self.description,
+            'Task type': TaskType.URGENT,
+            'Completed': self.completed,
+            'Time left': str(time_left)
+        }

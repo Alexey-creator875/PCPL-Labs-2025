@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 from datetime import datetime
 
-from Tasks.Tasks import UrgentTask
+from Tasks.Tasks import UrgentTask, TaskType
 
 
 class TestUrgentTask(unittest.TestCase):
@@ -28,11 +28,12 @@ class TestUrgentTask(unittest.TestCase):
         task = UrgentTask('Do homework', deadline)
         status = task.get_status()
 
-        correct_status = [
-            'Urgent Task',
-            'Description: Do homework',
-            f'Time left: 0:43:16'
-        ]
+        correct_status = {
+            'Description': 'Do homework',
+            'Task type': TaskType.URGENT,
+            'Completed': False,
+            'Time left': '0:43:16'
+        }
 
         self.assertEqual(status, correct_status)
 
@@ -46,10 +47,11 @@ class TestUrgentTask(unittest.TestCase):
         task = UrgentTask('Do homework', deadline)
         status = task.get_status()
 
-        correct_status = [
-            'Urgent Task',
-            'Description: Do homework',
-            f'Time left: 35 days, 23:43:16'
-        ]
+        correct_status = {
+            'Description': 'Do homework',
+            'Task type': TaskType.URGENT,
+            'Completed': False,
+            'Time left': '35 days, 23:43:16'
+        }
 
         self.assertEqual(status, correct_status)
