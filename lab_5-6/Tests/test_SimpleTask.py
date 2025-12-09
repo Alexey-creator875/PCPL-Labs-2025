@@ -1,7 +1,6 @@
 import unittest
-from Tasks.Tasks import SimpleTask
 
-# from ToDoList import TaskFactory, TaskType
+from Tasks.Tasks import SimpleTask
 
 class TestSimpleTask(unittest.TestCase):
     def test_create_task(self):
@@ -33,12 +32,3 @@ class TestSimpleTask(unittest.TestCase):
         ]
 
         self.assertEqual(status, correct_status)
-
-# class TestTaskFactory(unittest.TestCase):
-#     def test_create_task(self):
-#         factory = TaskFactory()
-
-#         task = factory.create_task(TaskType.SIMPLE, "processing", "homework", "do homework")
-
-#         self.assertEqual(task.name, "homework")
-    

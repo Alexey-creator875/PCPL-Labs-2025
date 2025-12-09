@@ -6,8 +6,7 @@ from datetime import datetime
 
 class TaskType(Enum):
     URGENT = 0
-    RECURRING = 1
-    SIMPLE = 2
+    SIMPLE = 1
 
 
 class Task(ABC):
@@ -25,11 +24,6 @@ class Task(ABC):
     def get_status(self):
         pass
 
-    # @abstractmethod
-    # def get_priority(self):
-    #     pass
-
-
 
 class SimpleTask(Task):
     def __init__(self, description):
@@ -40,9 +34,6 @@ class SimpleTask(Task):
             '\nSimple Task\n',
             f'Description: {self.description}'
         ]
-
-    # def get_priority(self):
-    #     return int(TaskType.SIMPLE)
 
 
 class UrgentTask(Task):
@@ -59,26 +50,3 @@ class UrgentTask(Task):
             f'Description: {self.description}'
             f'Time left: {time_left}'
         ]
-
-    # def get_priority(self):
-    #     return int(TaskType.URGENT)
-
-# class RecurringTask(Task):
-#     def __init__(self, status, name, task, period):
-#         super().__init__(status, name, task)
-#         self.period = period
-
-#     def get_priority(self):
-#         return int(TaskType.RECURRING)
-
-
-# class TaskFactory:
-#     def create_task(self, task_type, *args, **kwargs):
-#         if task_type == TaskType.URGENT:
-#             return UrgentTask(*args, **kwargs)
-#         elif task_type == TaskType.RECURRING:
-#             return RecurringTask(*args, **kwargs)
-#         elif task_type == TaskType.SIMPLE:
-#             return SimpleTask(*args, **kwargs)
-#         else:
-#             raise ValueError(f'Unknown task type: {task_type}')

@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from Tasks.Tasks import UrgentTask
 
@@ -52,6 +52,3 @@ class TestUrgentTask(unittest.TestCase):
         ]
 
         self.assertEqual(status, correct_status)
-
-
-
