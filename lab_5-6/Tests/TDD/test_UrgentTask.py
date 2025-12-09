@@ -55,3 +55,35 @@ class TestUrgentTask(unittest.TestCase):
         }
 
         self.assertEqual(status, correct_status)
+
+    def test_get_status_expired_task(self):
+        deadline = datetime(2020, 12, 9)
+        task = UrgentTask('Do homework', deadline)
+        status = task.get_status()
+
+        correct_status = {
+            'Description': 'Do homework',
+            'Task type': TaskType.URGENT,
+            'Completed': False,
+            'Time left': 'expired'
+        }
+
+        self.assertEqual(status, correct_status)
+
+    @patch('Tasks.Tasks.datetime')
+    def test_get_status_expired_just_now_task(self, mock_datetime):
+        fixed_time = datetime(2025, 12, 9, 16, 16, 44, 200)
+        mock_datetime.now.return_value = fixed_time
+
+        deadline = datetime(2025, 12, 9, 16, 16, 44)
+        task = UrgentTask('Do homework', deadline)
+        status = task.get_status()
+
+        correct_status = {
+            'Description': 'Do homework',
+            'Task type': TaskType.URGENT,
+            'Completed': False,
+            'Time left': 'expired'
+        }
+
+        self.assertEqual(status, correct_status)

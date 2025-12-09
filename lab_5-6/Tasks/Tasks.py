@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from enum import Enum
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class TaskType(Enum):
@@ -45,7 +45,9 @@ class UrgentTask(Task):
         self.deadline = deadline.replace(microsecond=0)
 
     def get_status(self):
-        time_left = self.deadline - datetime.now().replace(microsecond=0)
+        delta = self.deadline - datetime.now().replace(microsecond=0)
+
+        time_left = str(delta) if delta > timedelta(0) else 'expired'
 
         return {
             'Description': self.description,
