@@ -31,7 +31,7 @@ class SimpleTask(Task):
 
     def get_status(self):
         return [
-            '\nSimple Task\n',
+            'Simple Task',
             f'Description: {self.description}'
         ]
 
@@ -46,7 +46,7 @@ class UrgentTask(Task):
         time_left = self.deadline - datetime.now().replace(microsecond=0)
 
         return [
-            '\nUrgent Task\n',
-            f'Description: {self.description}'
+            'Urgent Task',
+            f'Description: {self.description}',
             f'Time left: {time_left}'
         ]

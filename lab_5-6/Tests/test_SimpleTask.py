@@ -27,7 +27,7 @@ class TestSimpleTask(unittest.TestCase):
         status = task.get_status()
 
         correct_status = [
-            '\nSimple Task\n',
+            'Simple Task',
             'Description: Cook dinner'
         ]
 

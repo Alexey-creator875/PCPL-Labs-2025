@@ -29,8 +29,8 @@ class TestUrgentTask(unittest.TestCase):
         status = task.get_status()
 
         correct_status = [
-            '\nUrgent Task\n',
-            'Description: Do homework'
+            'Urgent Task',
+            'Description: Do homework',
             f'Time left: 0:43:16'
         ]
 
@@ -47,8 +47,8 @@ class TestUrgentTask(unittest.TestCase):
         status = task.get_status()
 
         correct_status = [
-            '\nUrgent Task\n',
-            'Description: Do homework'
+            'Urgent Task',
+            'Description: Do homework',
             f'Time left: 35 days, 23:43:16'
         ]
 
