@@ -11,6 +11,13 @@ class TaskType(Enum):
 class Task(ABC):
     def __init__(self, description):
         self.description = description
+        self.completed = False
+
+    def mark_as_completed(self):
+        self.completed = True
+    
+    def is_completed(self):
+        return self.completed
 
     # @abstractmethod
     # def get_priority(self):
