@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from enum import Enum
 
+from datetime import datetime
+
 
 class TaskType(Enum):
     URGENT = 0
@@ -19,6 +21,10 @@ class Task(ABC):
     def is_completed(self):
         return self.completed
 
+    @abstractmethod
+    def get_status(self):
+        pass
+
     # @abstractmethod
     # def get_priority(self):
     #     pass
@@ -29,17 +35,33 @@ class SimpleTask(Task):
     def __init__(self, description):
         super().__init__(description)
 
+    def get_status(self):
+        return [
+            '\nSimple Task\n',
+            f'Description: {self.description}'
+        ]
+
     # def get_priority(self):
     #     return int(TaskType.SIMPLE)
 
 
-# class UrgentTask(Task):
-#     def __init__(self, status, name, task, deadline):
-#         super().__init__(status, name, task)
-#         self.deadline = deadline
+class UrgentTask(Task):
+    def __init__(self, description, deadline):
+        super().__init__(description)
+        self.deadline = deadline
+        self.deadline = deadline.replace(microsecond=0)
 
-#     def get_priority(self):
-#         return int(TaskType.URGENT)
+    def get_status(self):
+        time_left = self.deadline - datetime.now().replace(microsecond=0)
+
+        return [
+            '\nUrgent Task\n',
+            f'Description: {self.description}'
+            f'Time left: {time_left}'
+        ]
+
+    # def get_priority(self):
+    #     return int(TaskType.URGENT)
 
 # class RecurringTask(Task):
 #     def __init__(self, status, name, task, period):

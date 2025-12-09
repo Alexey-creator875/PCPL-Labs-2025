@@ -23,10 +23,16 @@ class TestSimpleTask(unittest.TestCase):
         task.mark_as_completed()
         self.assertEqual(task.is_completed(), True)
 
+    def test_get_status(self):
+        task = SimpleTask("Cook dinner")
+        status = task.get_status()
 
+        correct_status = [
+            '\nSimple Task\n',
+            'Description: Cook dinner'
+        ]
 
-
-
+        self.assertEqual(status, correct_status)
 
 # class TestTaskFactory(unittest.TestCase):
 #     def test_create_task(self):
