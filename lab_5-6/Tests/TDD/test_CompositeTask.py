@@ -140,3 +140,22 @@ class TestCompositeTask(unittest.TestCase):
 
         for component in cook_dinner_task.components:
             self.assertTrue(component.completed)
+
+    def test_mark_task_completed_when_all_subtasks_completed(self):
+        cook_soup_task = self.factory.create_task(TaskType.SIMPLE, 'Cook soup')
+        cut_vegetables_task = self.factory.create_task(TaskType.SIMPLE, 'Cut vegetables')
+        fry_meat_task = self.factory.create_task(TaskType.SIMPLE, 'Fry meat')
+
+        cook_dinner_task = self.factory.create_task(TaskType.COMPOSITE, 'Cook dinner')
+        cook_dinner_task.add_component(cook_soup_task)
+        cook_dinner_task.add_component(cut_vegetables_task)
+        cook_dinner_task.add_component(fry_meat_task)
+
+        cook_soup_task.mark_as_completed()
+        cut_vegetables_task.mark_as_completed()
+
+        self.assertFalse(cook_dinner_task.is_completed())
+
+        fry_meat_task.mark_as_completed()
+
+        self.assertTrue(cook_dinner_task.is_completed())
