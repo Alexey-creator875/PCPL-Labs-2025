@@ -36,6 +36,32 @@ class TestCompositeTask(unittest.TestCase):
 
             self.assertEqual(component.description, correct_component.description)
 
+    def test_observers_when_add_component(self):
+        cook_dinner_task = CompositeTask('Cook dinner')
+        cook_soup_task = self.factory.create_task(TaskType.SIMPLE, 'Cook soup')
+        cook_dinner_task.add_component(cook_soup_task)
+
+        self.assertEqual(cook_soup_task.observers, [cook_dinner_task])
+
+        cut_vegetables_task = self.factory.create_task(TaskType.SIMPLE, 'Cut vegetables')
+        cook_dinner_task.add_component(cut_vegetables_task)
+
+        self.assertEqual(cut_vegetables_task.observers, [cook_dinner_task])
+
+    def test_notify_observers(self):
+        cook_dinner_task = CompositeTask('Cook dinner')
+        cook_soup_task = self.factory.create_task(TaskType.SIMPLE, 'Cook soup')
+        cook_dinner_task.add_component(cook_soup_task)
+
+        self.assertEqual(len(cook_dinner_task.components), 1)
+
+        cook_soup_task.mark_as_completed()
+
+        self.assertTrue(cook_soup_task.is_completed())
+        self.assertTrue(cook_dinner_task.is_completed())
+        
+        
+
     def test_remove_component(self):
         tasks_type = TaskType.SIMPLE
         simple_tasks = CompositeTask('Simple Tasks')
@@ -144,18 +170,17 @@ class TestCompositeTask(unittest.TestCase):
     def test_mark_task_completed_when_all_subtasks_completed(self):
         cook_soup_task = self.factory.create_task(TaskType.SIMPLE, 'Cook soup')
         cut_vegetables_task = self.factory.create_task(TaskType.SIMPLE, 'Cut vegetables')
-        fry_meat_task = self.factory.create_task(TaskType.SIMPLE, 'Fry meat')
 
         cook_dinner_task = self.factory.create_task(TaskType.COMPOSITE, 'Cook dinner')
         cook_dinner_task.add_component(cook_soup_task)
         cook_dinner_task.add_component(cut_vegetables_task)
-        cook_dinner_task.add_component(fry_meat_task)
-
-        cook_soup_task.mark_as_completed()
-        cut_vegetables_task.mark_as_completed()
 
         self.assertFalse(cook_dinner_task.is_completed())
 
-        fry_meat_task.mark_as_completed()
+        cook_soup_task.mark_as_completed()
+
+        self.assertFalse(cook_dinner_task.is_completed())
+
+        cut_vegetables_task.mark_as_completed()
 
         self.assertTrue(cook_dinner_task.is_completed())

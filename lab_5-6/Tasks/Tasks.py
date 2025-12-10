@@ -14,9 +14,23 @@ class Task(ABC):
     def __init__(self, description):
         self.description = description
         self.completed = False
+        self.observers = []
+
+    def add_observer(self, observer):
+        if observer not in self.observers:
+            self.observers.append(observer)
+
+    def remove_observer(self, observer):
+        if observer in self.observers:
+            self.observers.remove(observer)
+    
+    def notify_observers(self):
+        for observer in self.observers:
+            observer.update_status()
 
     def mark_as_completed(self):
         self.completed = True
+        self.notify_observers()
     
     def is_completed(self):
         return self.completed
