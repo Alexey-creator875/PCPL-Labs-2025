@@ -1,6 +1,6 @@
 import unittest
 
-from Faculty import *
+from FacultyRequests import *
 
 
 class TestFirstRequest(unittest.TestCase):
@@ -40,7 +40,7 @@ class TestFirstRequest(unittest.TestCase):
         self.one_to_many = JoinFacultyToDepartmentIfOneToManyRelationship(self.departments, self.faculties)
         self.many_to_many = JoinFacultyToDepartmentIfManyToManyRelationship(self.departments, self.faculties, self.facultyDepartments)
     
-    def test_FirstRequest(self):
+    def test_PerformFirstRequest(self):
         result = PerformFirstRequest(self.one_to_many)
 
         correct_result = [
@@ -51,7 +51,7 @@ class TestFirstRequest(unittest.TestCase):
 
         self.assertEqual(result, correct_result)
 
-    def test_SecondRequest(self):
+    def test_PerformSecondRequest(self):
         result = PerformSecondTask(self.faculties, self.one_to_many)
 
         correct_result = [
@@ -62,7 +62,7 @@ class TestFirstRequest(unittest.TestCase):
 
         self.assertEqual(result, correct_result)
 
-    def test_ThirdRequest(self):
+    def test_PerformThirdRequest(self):
         result = PerformThirdTask(self.many_to_many)
 
         correct_result = [
