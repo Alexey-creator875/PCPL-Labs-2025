@@ -42,17 +42,11 @@ def JoinFacultyToDepartmentIfManyToManyRelationship(departments, faculties, facu
 
     return many_to_many
 
-def PrintTaskNumber(number):
-    print(f'\nЗадание {number}')
-
 def PerformFirstRequest(one_to_many):
-    PrintTaskNumber('B1')
     resB1 = list(filter(lambda row: row[0].startswith('И'), one_to_many))
-    print(*resB1, sep='\n')
+    return resB1
 
 def PerformSecondTask(faculties, one_to_many):
-    PrintTaskNumber('B2')
-
     resA2Unsorted = []
 
     for faculty in faculties:
@@ -62,12 +56,11 @@ def PerformSecondTask(faculties, one_to_many):
             resA2Unsorted.append((faculty.name, min(facultyTuitionFees)))
 
     resB2 = sorted(resA2Unsorted, key=lambda row : row[1])
-    print(*resB2, sep='\n')
+    return resB2
 
 def PerformThirdTask(many_to_many):
-    PrintTaskNumber('B3')
     resA3 = sorted(many_to_many, key=lambda row : row[0])
-    print(*resA3, sep='\n')
+    return resA3
 
 def main():
     faculties = [
