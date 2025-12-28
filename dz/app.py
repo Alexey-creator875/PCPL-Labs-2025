@@ -9,7 +9,11 @@ db = SQLAlchemy(app)
 class Faculty(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     facultyName = db.Column(db.String(100), nullable=False)
-    departmentNumber = db.Column(db.Integer, default=0)
+    departments = db.relationship('Department', backref='faculty', lazy=True)
+
+    @property
+    def departmentNumber(self):
+        return len(self.departments)
 
 
 class Department(db.Model):
@@ -45,14 +49,13 @@ def departments(faculty_id):
 def create_faculty():
     if request.method == 'POST':
         facultyName = request.form['facultyName']
-        departmentNumber = request.form['departmentNumber']
 
-        faculty = Faculty(facultyName=facultyName, departmentNumber=departmentNumber)
+        faculty = Faculty(facultyName=facultyName)
 
         try:
             db.session.add(faculty)
             db.session.commit()
-            return redirect('/')
+            return redirect('/faculties')
 
         except:
             return 'При добавлении факультета произошла ошибка'
@@ -72,7 +75,7 @@ def create_department(faculty_id):
         try:
             db.session.add(department)
             db.session.commit()
-            return redirect('/')
+            return redirect(f'/faculties/departments/id={faculty_id}')
 
         except:
             return 'При добавлении кафедры произошла ошибка'
