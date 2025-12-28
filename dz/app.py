@@ -27,10 +27,9 @@ with app.app_context():
     db.create_all()
 
 
-@app.route("/index")
 @app.route("/")
-def index():
-    return render_template('index.html')
+def main_page():
+    return render_template('main_page.html')
 
 
 @app.route("/faculties")
