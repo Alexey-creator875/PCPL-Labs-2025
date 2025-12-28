@@ -12,6 +12,13 @@ class Faculty(db.Model):
     departmentNumber = db.Column(db.Integer, default=0)
 
 
+class Department(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    departmentName = db.Column(db.String(100), nullable=False)
+    tuitionFee = db.Column(db.Integer, default=0)
+    faculty_id = db.Column(db.Integer, db.ForeignKey('faculty.id'))
+
+
 with app.app_context():
     db.create_all()
 
@@ -28,8 +35,14 @@ def faculties():
     return render_template('faculties.html', faculties=faculties)
 
 
-@app.route("/create", methods=['POST', 'GET'])
-def create():
+@app.route("/faculties/departments/id=<int:faculty_id>")
+def departments(faculty_id):
+    departments = Department.query.filter_by(faculty_id=faculty_id)
+    return render_template('departments.html', departments=departments, faculty_id=faculty_id)
+
+
+@app.route("/create_faculty", methods=['POST', 'GET'])
+def create_faculty():
     if request.method == 'POST':
         facultyName = request.form['facultyName']
         departmentNumber = request.form['departmentNumber']
@@ -45,7 +58,27 @@ def create():
             return 'При добавлении факультета произошла ошибка'
 
     else:
-        return render_template('create.html')
+        return render_template('create_faculty.html')
+    
+
+@app.route("/faculty_id=<int:faculty_id>/create_department", methods=['POST', 'GET'])
+def create_department(faculty_id):
+    if request.method == 'POST':
+        departmentName = request.form['departmentName']
+        tuitionFee = request.form['tuitionFee']
+
+        department = Department(departmentName=departmentName, tuitionFee=tuitionFee, faculty_id=faculty_id)
+
+        try:
+            db.session.add(department)
+            db.session.commit()
+            return redirect('/')
+
+        except:
+            return 'При добавлении кафедры произошла ошибка'
+
+    else:
+        return render_template('create_department.html')
 
 
 if __name__ == '__main__':

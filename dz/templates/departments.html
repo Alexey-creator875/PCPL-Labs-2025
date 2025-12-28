@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Кафедры
+{% endblock %}
+
+{% block contentTitle %}
+Кафедры
+{% endblock %}
+
+{% block content %}
+
+{% for department in departments %}
+<div class="row">
+    <div class="rowMainLabel">{{ department.departmentName }}</div>
+    <div class="rowSecondaryLabel">Стоимость обучения: {{ department.tuitionFee }} руб.</div>
+</div>
+{% endfor %}
+
+<div class="row">
+    <a href="/faculty_id={{ faculty_id }}/create_department" class="rowMainLabel">Добавить кафедру</a>
+</div>
+
+{% endblock %}

@@ -12,8 +12,8 @@
 
 {% for faculty in faculties %}
 <div class="row">
-    <div class="facultyName">{{ faculty.facultyName }}</div>
-    <div class="departmentNumber">Количество кафедр: {{ faculty.departmentNumber }} шт.</div>
+    <a href="/faculties/departments/id={{ faculty.id }}" class="rowMainLabel">{{ faculty.facultyName }}</a>
+    <div class="rowSecondaryLabel">Количество кафедр: {{ faculty.departmentNumber }} шт.</div>
 </div>
 {% endfor %}
 
